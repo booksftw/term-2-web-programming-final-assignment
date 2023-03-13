@@ -9,7 +9,7 @@ app.use(express.static('public'));
 
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://<username>:<password>@search-data.dfadfasd.mongodb.net/<database-name>?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://nzachary46:otQaCfVJEQcuiV3h@webdev.plxakzu.mongodb.net/movie-data?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('MongoDB connected');
   })
@@ -21,18 +21,18 @@ mongoose.connect('mongodb+srv://<username>:<password>@search-data.dfadfasd.mongo
 app.get('/', (req, res) => {
   // Find movies with a runtime greater than 120 minutes, limit to 10 documents
   Sample.find({ runtime: { $gt: 120 } })
-  .limit(10)
-  .then((movies) => {
-    res.render('index',{movies:movies});
-    console.log(movies)
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .limit(10)
+    .then((movies) => {
+      res.render('index', { movies: movies });
+      console.log(movies)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
