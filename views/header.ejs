@@ -1,0 +1,38 @@
+<!-- index.ejs -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Movies</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>Search</h1>
+
+    <form action="/search" method="POST">
+      <label for="query">Query</label>
+      <input class="form-control" type="text" id="query" name="query" />
+
+      <label class="form-control" for="filter1">Filter1</label>
+      <select id="filter1" name="filter1">
+        <option value="title">Title</option>
+        <option value="saab">Option 2</option>
+        <option value="fiat">Option 3</option>
+        <option value="audi">Option 4</option>
+      </select>
+
+      <label class="form-control" for="filter2">Filter2</label>
+      <select id="filter2" name="filter2">
+        <option value="all_categories">All categories</option>
+        <option value="saab">Option 2</option>
+        <option value="fiat">Option 3</option>
+        <option value="audi">Option 4</option>
+      </select>
+
+      <input class="btn btn-primary" type="submit" value="Search" />
+    </form>
+  </div>
