@@ -25,20 +25,26 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.post('/search', (req, res) => {
-  console.log(req.body)
+app.post('/search', async (req, res) => {
+  console.log(req.params)
 
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const skip = (page - 1) * pageSize;
   // Empty search query should return all results
   if (req.body.query === "" && req.body.filter2 === "all_categories") {
-    Sample.find({})
-      .limit(100)
+    const movies = await Sample.find({})
+      .limit(20)
       .then((movies) => {
-        res.render('searchResults', { movies: movies })
+        const totalMovies = movies.length;
+        const hasNextPage = skip + pageSize < totalMovies;
+        res.render('searchResults', { movies: movies, page: page, hasNextPage: hasNextPage, pageSize: pageSize })
         console.log(movies)
       })
       .catch((err) => {
         console.log(err)
       })
+
     // } else if (req.body.query === "" && req.body.filter2 === "R") {
   }
   // else if (req.body.filter2 !== "all_categories") {

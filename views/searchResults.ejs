@@ -25,5 +25,14 @@
       <% } %>
         <p>Countries: <%= movie.countries.join(', ') %></p> <!-- List of countries where the movie was produced -->
   <% }) %>
+  <!--Pagination-->
+  <div class="pagination">
+    <% if (page > 1) { %>
+      <a href="/search?page=<%= page - 1 %>&pageSize=<%= pageSize %>">Previous</a>
+    <% } %>
+    <% if (hasNextPage) { %>
+      <a href="/search?page=<%= page + 1 %>&pageSize=<%= pageSize %>">Next</a>
+    <% } %>
+  </div>
 
     <%- include("partials/footer"); %>
