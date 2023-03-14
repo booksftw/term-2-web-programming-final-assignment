@@ -83,12 +83,37 @@ app.post('/search', (req, res) => {
             console.log(err)
           })
         break;
-
+      case "runtime-greater":
+        console.log("run time greater")
+        Sample.find({ runtime: { $gt: req.body.query } })
+          .limit(10)
+          .then((movies) => {
+            res.render('searchResults', { movies: movies })
+            console.log(movies)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        break
+      case "runtime-less":
+        console.log("run time less")
+        Sample.find({ runtime: { $lt: req.body.query } })
+          .limit(10)
+          .then((movies) => {
+            res.render('searchResults', { movies: movies })
+            console.log(movies)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        break
       default:
         console.log("Something wrong happened")
         break;
     }
   } else {
+    // 2 Filters selected
+    console.log("Two Filter selected")
     if (req.body.filter1 === "title") {
       console.log("this title block rendered")
       Sample.find({ $and: [{ rated: req.body.filter2 }, { title: new RegExp(req.body.query, 'i') }] })
@@ -101,20 +126,43 @@ app.post('/search', (req, res) => {
           console.log(err)
         })
     }
-    // 2 Filters selected
-    if (req.body.filter1 === "year")
-      console.log("Two Filter selected")
-    // Sample.find({ $and: [{ title: req.body.query }, { rated: req.body.filter2 }] })
-    Sample.find({ $and: [{ rated: req.body.filter2 }, { year: req.body.query }] })
-      .limit(10)
-      .then((movies) => {
-        res.render('searchResults', { movies: movies })
-        console.log(movies)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    // }
+    if (req.body.filter1 === "year") {
+      // Sample.find({ $and: [{ title: req.body.query }, { rated: req.body.filter2 }] })
+      Sample.find({ $and: [{ rated: req.body.filter2 }, { year: req.body.query }] })
+        .limit(10)
+        .then((movies) => {
+          res.render('searchResults', { movies: movies })
+          console.log(movies)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      // }
+    }
+
+    if (req.body.filter1 === "runtime-greater") {
+      Sample.find({ $and: [{ rated: req.body.filter2 }, { runtime: { $gt: req.body.query } }] })
+        .limit(10)
+        .then((movies) => {
+          res.render('searchResults', { movies: movies })
+          console.log(movies)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
+    if (req.body.filter1 === "runtime-less") {
+      Sample.find({ $and: [{ rated: req.body.filter2 }, { runtime: { $lt: req.body.query } }] })
+        .limit(10)
+        .then((movies) => {
+          res.render('searchResults', { movies: movies })
+          console.log(movies)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 });
 
