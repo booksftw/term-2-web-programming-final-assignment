@@ -20,7 +20,7 @@
       <label class="form-control" for="filter1">Filter1</label>
       <select id="filter1" name="filter1">
         <option value="title">Title</option>
-        <option value="saab">Option 2</option>
+        <option value="year">Year</option>
         <option value="fiat">Option 3</option>
         <option value="audi">Option 4</option>
       </select>
@@ -28,9 +28,13 @@
       <label class="form-control" for="filter2">Filter2</label>
       <select id="filter2" name="filter2">
         <option value="all_categories">All categories</option>
-        <option value="saab">Option 2</option>
-        <option value="fiat">Option 3</option>
-        <option value="audi">Option 4</option>
+        <!-- For the remaining options dynamically create them by the genres-->
+        <option value="G">G</option>
+        <option value="PG">PG</option>
+        <option value="PG-13">PG-13</option>
+        <option value="R">R</option>
+        <option value="NC-17">NC-17</option>
+        <!-- <option value="">Unrated</option> -->
       </select>
 
       <input class="btn btn-primary" type="submit" value="Search" />

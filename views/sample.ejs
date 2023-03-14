@@ -1,38 +1,29 @@
 <!-- index.ejs -->
-<%- include('index'); %>
-  <!DOCTYPE html>
-  <html>
+<%- include("partials/header"); %>
 
-  <head>
-    <meta charset="utf-8">
-    <title>Movies</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
-  </head>
-
-  <body>
-    <h1>Movies</h1> <!-- Heading for the page -->
-    <% movies.forEach((movie)=> { %> <!-- Loop through the list of movies -->
-      <h2>
-        <%= movie.title %>
-      </h2> <!-- Movie title -->
-      <p>
-        <%= movie.plot %>
-      </p> <!-- Movie plot summary -->
-      <ul>
-        <% movie.genres.forEach((genre)=> { %> <!-- Loop through the movie's genres -->
-          <li>
-            <%= genre %>
-          </li> <!-- Display each genre in a list item -->
-          <% }) %>
-      </ul>
-      <p>Runtime: <%= movie.runtime %> minutes</p> <!-- Movie runtime in minutes -->
-      <p>Rated: <%= movie.rated %>
-      </p> <!-- Movie rating -->
-      <% if (movie.released) { %> <!-- Check if the movie's release date is defined -->
-        <p>Released: <%= movie.released.toDateString() %>
-        </p> <!-- Movie release date -->
-        <% } %>
-          <p>Countries: <%= movie.countries.join(', ') %></p> <!-- List of countries where the movie was produced -->
+  <h1>Movies</h1> <!-- Heading for the page -->
+  <% movies.forEach((movie)=> { %> <!-- Loop through the list of movies -->
+    <h2>
+      <%= movie.title %>
+    </h2> <!-- Movie title -->
+    <p>
+      <%= movie.plot %>
+    </p> <!-- Movie plot summary -->
+    <ul>
+      <% movie.genres.forEach((genre)=> { %> <!-- Loop through the movie's genres -->
+        <li>
+          <%= genre %>
+        </li> <!-- Display each genre in a list item -->
+        <% }) %>
+    </ul>
+    <p>Runtime: <%= movie.runtime %> minutes</p> <!-- Movie runtime in minutes -->
+    <p>Rated: <%= movie.rated %>
+    </p> <!-- Movie rating -->
+    <% if (movie.released) { %> <!-- Check if the movie's release date is defined -->
+      <p>Released: <%= movie.released.toDateString() %>
+      </p> <!-- Movie release date -->
+      <% } %>
+        <p>Countries: <%= movie.countries.join(', ') %></p> <!-- List of countries where the movie was produced -->
   <% }) %>
-</body>
-</html>
+
+    <%- include("partials/footer"); %>

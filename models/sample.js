@@ -37,10 +37,15 @@ const sampleSchema = new mongoose.Schema({
   countries: [{
     type: String,
     required: true
-  }]
+  }],
+  // NZ
+  year: {
+    type: Number,
+    required: true
+  }
 });
 
 // Export a new movie model using the movie schema
-const Sample = mongoose.model('Sample', sampleSchema,'movies');
+const Sample = mongoose.model('Sample', sampleSchema, 'movies');
 
 module.exports = Sample
