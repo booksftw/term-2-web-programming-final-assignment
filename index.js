@@ -179,6 +179,15 @@ app.get("/search", async (req, res) => {
         break;
       case "runtime-greater":
         console.log("run time greater");
+
+        await Sample.countDocuments({ runtime: { $gt: req.query.query } }).then(
+          (e) => {
+            sampleCount = e;
+            const totalMovies = sampleCount;
+            hasNextPage = skip + pageSize < totalMovies;
+          }
+        );
+
         Sample.find({ runtime: { $gt: req.query.query } })
           .skip(skip)
           // .skip(page * 5)
@@ -198,6 +207,15 @@ app.get("/search", async (req, res) => {
         break;
       case "runtime-less":
         console.log("run time less");
+
+        await Sample.countDocuments({ runtime: { $lt: req.query.query } }).then(
+          (e) => {
+            sampleCount = e;
+            const totalMovies = sampleCount;
+            hasNextPage = skip + pageSize < totalMovies;
+          }
+        );
+
         Sample.find({ runtime: { $lt: req.query.query } })
           .skip(skip)
           // .skip(page * 5)
