@@ -38,6 +38,9 @@ app.get("/search", async (req, res) => {
   let sampleCount = 0;
   await Sample.countDocuments({}).then((e) => (sampleCount = e));
   console.log("SKIP", skip);
+  const totalMovies = sampleCount;
+  // let hasNextPage = skip + pageSize < totalMovies;
+  let hasNextPage = false;
 
   // if (req.query.page > 1) {
   //   console.log("query page greater than 1");
@@ -84,13 +87,15 @@ app.get("/search", async (req, res) => {
       .skip(skip)
       .limit(pageSize)
       .then((movies) => {
-        const totalMovies = sampleCount;
-        const hasNextPage = skip + pageSize < totalMovies;
+
         res.render("searchResults", {
           movies: movies,
           page: page,
           hasNextPage: hasNextPage,
           pageSize: pageSize,
+          filter2: req.query.filter2,
+          filter1: req.query.filter1,
+          query: req.query.query
         });
         // console.log(movies)
       })
@@ -104,6 +109,15 @@ app.get("/search", async (req, res) => {
     switch (req.query.filter1) {
       case "title":
         console.log("render title search");
+
+        let sampleCount = 0;
+        await Sample.count({ title: new RegExp(req.query.query, "i") }).then((e) => {
+          sampleCount = e
+          const totalMovies = sampleCount;
+          hasNextPage = skip + pageSize < totalMovies;
+        });
+        console.log("totalMovies title search", totalMovies)
+
         // Sample.find({ title: `/(.*)Aileen(.*)/ ` })
         // Sample.find({ title: new RegExp('/(.*)Aileen(.*)/', 'i') })
         // Sample.find({ title: new RegExp(req.query.query, "i") });
@@ -112,15 +126,14 @@ app.get("/search", async (req, res) => {
           .skip(skip)
           .limit(pageSize)
           .then((movies) => {
-            const totalMovies = sampleCount;
-            const hasNextPage = skip + pageSize < totalMovies;
             res.render("searchResults", {
               movies: movies,
               page: page,
               hasNextPage: hasNextPage,
               pageSize: pageSize,
               filter2: req.query.filter2,
-              filter1: req.query.filter1
+              filter1: req.query.filter1,
+              query: req.query.query
             });
             // console.log(movies)
           })
@@ -129,16 +142,26 @@ app.get("/search", async (req, res) => {
           });
         break;
       case "year":
-        console.log("year render");
+        console.log("year render", "SKIP", skip);
         Sample.find({ year: req.query.query })
-          .limit(10)
-          .then((movies) => {
-            res.render("searchResults", { movies: movies });
-            console.log(movies);
-          })
-          .catch((err) => {
-            console.log(err);
+        .skip(skip)
+        // .skip(page * 5)
+        .limit(pageSize)
+        .then((movies) => {
+          res.render("searchResults", {
+            movies: movies,
+            page: page,
+            hasNextPage: hasNextPage,
+            pageSize: pageSize,
+            filter2: req.query.filter2,
+            filter1: req.query.filter1,
+            query: req.query.query
           });
+          // console.log(movies)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
         break;
       case "runtime-greater":
         console.log("run time greater");
