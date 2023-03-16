@@ -87,7 +87,6 @@ app.get("/search", async (req, res) => {
       .skip(skip)
       .limit(pageSize)
       .then((movies) => {
-
         res.render("searchResults", {
           movies: movies,
           page: page,
@@ -95,7 +94,7 @@ app.get("/search", async (req, res) => {
           pageSize: pageSize,
           filter2: req.query.filter2,
           filter1: req.query.filter1,
-          query: req.query.query
+          query: req.query.query,
         });
         // console.log(movies)
       })
@@ -110,18 +109,21 @@ app.get("/search", async (req, res) => {
       case "title":
         console.log("render title search");
 
-        let sampleCount = 0;
-        await Sample.count({ title: new RegExp(req.query.query, "i") }).then((e) => {
-          sampleCount = e
-          const totalMovies = sampleCount;
-          hasNextPage = skip + pageSize < totalMovies;
-        });
-        console.log("totalMovies title search", totalMovies)
+        await Sample.countDocuments({ title: new RegExp(req.query.query, "i") }).then(
+          (e) => {
+            sampleCount = e;
+            const totalMovies = sampleCount;
+            hasNextPage = skip + pageSize < totalMovies;
+          }
+        );
+        console.log("totalMovies title search", totalMovies);
 
         // Sample.find({ title: `/(.*)Aileen(.*)/ ` })
         // Sample.find({ title: new RegExp('/(.*)Aileen(.*)/', 'i') })
         // Sample.find({ title: new RegExp(req.query.query, "i") });
-        const movies = await Sample.find( { title: new RegExp(req.query.query, "i") })
+        const movies = await Sample.find({
+          title: new RegExp(req.query.query, "i"),
+        })
           // .skip(5 * page)
           .skip(skip)
           .limit(pageSize)
@@ -133,7 +135,7 @@ app.get("/search", async (req, res) => {
               pageSize: pageSize,
               filter2: req.query.filter2,
               filter1: req.query.filter1,
-              query: req.query.query
+              query: req.query.query,
             });
             // console.log(movies)
           })
@@ -142,49 +144,75 @@ app.get("/search", async (req, res) => {
           });
         break;
       case "year":
+
+      await Sample.countDocuments({ year: req.query.query }).then(
+        (e) => {
+          sampleCount = e;
+          const totalMovies = sampleCount;
+          hasNextPage = skip + pageSize < totalMovies;
+          console.log("total Movies", totalMovies)
+          console.log("hasNextPage", hasNextPage)
+        }
+      );
+
+
         console.log("year render", "SKIP", skip);
         Sample.find({ year: req.query.query })
-        .skip(skip)
-        // .skip(page * 5)
-        .limit(pageSize)
-        .then((movies) => {
-          res.render("searchResults", {
-            movies: movies,
-            page: page,
-            hasNextPage: hasNextPage,
-            pageSize: pageSize,
-            filter2: req.query.filter2,
-            filter1: req.query.filter1,
-            query: req.query.query
+          .skip(skip)
+          // .skip(page * 5)
+          .limit(pageSize)
+          .then((movies) => {
+            res.render("searchResults", {
+              movies: movies,
+              page: page,
+              hasNextPage: hasNextPage,
+              pageSize: pageSize,
+              filter2: req.query.filter2,
+              filter1: req.query.filter1,
+              query: req.query.query,
+            });
+            // console.log(movies)
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          // console.log(movies)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
         break;
       case "runtime-greater":
         console.log("run time greater");
         Sample.find({ runtime: { $gt: req.query.query } })
-          .limit(10)
+          .skip(skip)
+          // .skip(page * 5)
+          .limit(pageSize)
           .then((movies) => {
-            res.render("searchResults", { movies: movies });
-            console.log(movies);
-          })
-          .catch((err) => {
-            console.log(err);
+            res.render("searchResults", {
+              movies: movies,
+              page: page,
+              hasNextPage: hasNextPage,
+              pageSize: pageSize,
+              filter2: req.query.filter2,
+              filter1: req.query.filter1,
+              query: req.query.query,
+            });
+            // console.log(movies)
           });
         break;
       case "runtime-less":
         console.log("run time less");
         Sample.find({ runtime: { $lt: req.query.query } })
-          .limit(10)
+          .skip(skip)
+          // .skip(page * 5)
+          .limit(pageSize)
           .then((movies) => {
-            res.render("searchResults", { movies: movies });
-            console.log(movies);
-          })
-          .catch((err) => {
-            console.log(err);
+            res.render("searchResults", {
+              movies: movies,
+              page: page,
+              hasNextPage: hasNextPage,
+              pageSize: pageSize,
+              filter2: req.query.filter2,
+              filter1: req.query.filter1,
+              query: req.query.query,
+            });
+            // console.log(movies)
           });
         break;
       default:
