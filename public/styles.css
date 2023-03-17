@@ -1,6 +1,7 @@
 /* Define body styles */
 body {
-  background-color: #b9a3a3; /* Set the background color to a light brown */
+  /* background-color: #b9a3a3; Set the background color to a light brown */
+  background-color: white;
   font-family: Arial, sans-serif; /* Use the Arial or sans-serif font family */
   font-size: 16px; /* Set the font size to 16 pixels */
 }
@@ -30,4 +31,8 @@ ul {
 li {
   display: inline-block; /* Display list items as inline-block elements */
   margin-right: 10px; /* Add right margin to list items */
+}
+
+#footer-container {
+  min-height: 300px;
 }

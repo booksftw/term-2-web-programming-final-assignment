@@ -7,26 +7,41 @@
   <meta charset="utf-8">
   <title>Movies</title>
   <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="styles/style.css" /> <!-- Link to tailwind CSS-->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-  <div class="form-container">
-    <h1>Search</h1>
+  <div class="form-container block text-center mt-10">
 
     <form action="/search" method="GET">
-      <label for="query">Query</label>
-      <input class="form-control" type="text" id="query" name="query" />
+      <!-- <label for="query">Query</label> -->
+      <input class="form-control w-80 h-12 px-4 mb-2 text-lg text-gray-700 placeholder-gray-400
+       border rounded-lg focus:shadow-outline" type="text" id="query" name="query" placeholder="Query" />
 
-      <label class="form-control" for="filter1">Filter1</label>
-      <select id="filter1" name="filter1">
-        <option value="title">Title</option>
-        <option value="year">Year</option>
+       <!-- <div class="text-gray-700 md:flex md:items-center">
+        <div class="mb-1 md:mb-0 md:w-1/3">
+        </div>
+        <div class="md:w-2/3 md:flex-grow">
+
+        </div>
+      </div> -->
+
+      <label class="form-control ml-10" for="filter1">Filter1</label>
+      <select id="filter1" name="filter1" 
+      class="w-72 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:shadow-outline">
+        <option value="title">Title(Fuzzy Search)</option>
+        <option value="year">Year(Exact Match Search)</option>
         <option value="runtime-greater">Runtime greater than</option>
         <option value="runtime-less">Runtime less than</option>
       </select>
+      
 
-      <label class="form-control" for="filter2">Filter2</label>
-      <select id="filter2" name="filter2">
+
+      <label class="form-control ml-10" for="filter2">Filter2</label>
+      <select id="filter2" name="filter2" 
+      class="w-72 h-10 px-3 text-base placeholder-gray-600 border 
+      rounded-lg focus:shadow-outline mr-10">
         <option value="all_categories">All categories</option>
         <!-- For the remaining options dynamically create them by the genres-->
         <option value="G">G</option>
@@ -37,6 +52,9 @@
         <!-- <option value="">Unrated</option> -->
       </select>
 
-      <input class="btn btn-primary" type="submit" value="Search" />
+      <input class="text-2xl middle none center rounded-lg bg-pink-500 py-3 px-6 font-sans font-bold uppercase
+      text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40
+       focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none
+        disabled:opacity-50 disabled:shadow-none cursor-pointer" type="submit" value="Search" />
     </form>
   </div>
